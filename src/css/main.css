@@ -43,3 +43,30 @@ header {
     padding: 8px;
     justify-content: space-between;
 }
+.update-all {
+  margin: 12px;
+  border: 1px solid maroon;
+  border-radius: 8px;
+  padding: 16px;
+}
+.update-book {
+  margin: 12px;
+  padding: 16px;
+  border: 1px solid violet;
+  border-radius: 8px;
+}
+
+.button-small {
+  width: 40%;
+}
+
+.update-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.register {
+  margin: 12px;
+  padding: 16px;
+}

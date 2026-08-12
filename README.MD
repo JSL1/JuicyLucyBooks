@@ -1,6 +1,6 @@
 ## JuicyLucy Books
 
- *This is a CRUD app for an online book shop, created in PHP/MYSQL, and HTML/CSS.*
+ *This is an SQL CRUD app for an online book shop*
 
 ### Submitted to:
 Professor: Ersan Cam\

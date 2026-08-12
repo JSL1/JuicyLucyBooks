@@ -14,7 +14,8 @@ const AddBook = () => {
     }
 
     return (
-        <main className="container">
+        <main className="container ">
+        
         <h2 className="pico-color-violet-500">Register Book</h2>
         <form id="book-register">
             <label for="isbn">Isbn</label>
@@ -35,6 +36,8 @@ const AddBook = () => {
             <input type="number" name="retail" id="retail" />
             <label for="category">Category</label>
             <input type="text" name="category" id="category" />
+            <label for="discount">Discount</label>
+            <input type="number" name="discount" id="discount" />
             <input type="submit" value="Register" />
             <input type="reset" value="Cancel" />
         </form>

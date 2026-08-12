@@ -18,9 +18,9 @@ function App() {
        <Routes>
         <Route path="/addbook" element={<AddBook />} />
         <Route path ="/" element={<Homepage />} />
-        <Route path="/authors" element={<AddAuthor />} />
+        <Route path="/authors" element={<AuthorsMain />} />
         <Route path="/books" element={<BooksMain />} />
-        <Route path="/addauthor" element={<AuthorsMain />} />
+        <Route path="/addauthor" element={<AddAuthor />} />
       </Routes>
       <Footer />
     </div>
