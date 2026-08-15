@@ -23,3 +23,55 @@ END;
 /
 
 SELECT * FROM JL_BOOKS WHERE ISBN = 6969696969;
+
+-- ============================================
+-- JL BOOK SALES APPLICATION
+-- TASK 2 - AUTHOR RELATED ACTIVITIES
+-- ============================================
+
+-- Task 2-1: Check JL_AUTHOR table
+DESC JL_AUTHOR;
+
+
+-- Task 2-1: Register Author Procedure
+CREATE OR REPLACE PROCEDURE sp_register_author
+(
+    p_authorid IN JL_AUTHOR.AUTHORID%TYPE,
+    p_lname    IN JL_AUTHOR.LNAME%TYPE,
+    p_fname    IN JL_AUTHOR.FNAME%TYPE
+)
+AS
+BEGIN
+    INSERT INTO JL_AUTHOR (AUTHORID, LNAME, FNAME)
+    VALUES (p_authorid, p_lname, p_fname);
+
+    COMMIT;
+END;
+/
+
+
+-- Task 2-2: Check JL_BOOKAUTHOR table
+DESC JL_BOOKAUTHOR;
+
+
+-- Task 2-2: Assign Author Procedure
+CREATE OR REPLACE PROCEDURE sp_assign_author
+(
+    p_isbn     IN JL_BOOKAUTHOR.ISBN%TYPE,
+    p_authorid IN JL_BOOKAUTHOR.AUTHORID%TYPE
+)
+AS
+BEGIN
+    INSERT INTO JL_BOOKAUTHOR (ISBN, AUTHORID)
+    VALUES (p_isbn, p_authorid);
+
+    COMMIT;
+END;
+/
+
+
+-- Final verification
+SELECT ISBN, AUTHORID
+FROM JL_BOOKAUTHOR
+WHERE ISBN = '0401140733'
+AND AUTHORID = 'F310';

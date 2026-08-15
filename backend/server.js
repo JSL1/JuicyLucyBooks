@@ -8,5 +8,5 @@ app.use(cors());
 app.use(express.json());
 
 const sequelize = new Sequelize(
-
+    
 )

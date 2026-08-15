@@ -1,7 +1,9 @@
-const {Sequelize } = require('sequelize');
+const { Sequelize } = require('sequelize');
+const cors = require('cors');
+const sequelize = require('./config/database');
 
 const credentials = {
-    uname: import.meta.env.USERNAME,
+    uname: impor.env.USERNAME,
     pword: import.meta.env.PASSWORD,
     hostname: import.meta.env.HOSTNAME,
     port: import.meta.env.PORT,
@@ -16,6 +18,8 @@ const sequelize = new Sequelize({
         connectString: `(DESCRIPTION = (ADDRESS = ( PROTOCOL = TCP)(HOST = ${import.meta.env.HOST})(HOST = ${import.meta.env.PORT}))(CONNECT_DATA = (SID = ${import.meta.env.SID})))`
     }
 });
+
+//app.use
 
 module.exports = sequelize;
 

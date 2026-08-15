@@ -9,6 +9,11 @@ import AddAuthor from './Components/AddAuthor';
 import './css/main.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Homepage from './Components/Homepage';
+import CustomerMain from "./Components/CustomerMain";
+import CustomerRegister from "./Components/CustomerRegister";
+import CustomerUpdate from "./Components/CustomerUpdate";
+
+
 
 function App() {
   return (
@@ -21,6 +26,10 @@ function App() {
         <Route path="/authors" element={<AuthorsMain />} />
         <Route path="/books" element={<BooksMain />} />
         <Route path="/addauthor" element={<AddAuthor />} />
+        <Route path="/customers" element={<CustomerMain />} />
+        <Route path="/customer-register" element={<CustomerRegister />} />
+        <Route path="/customer-update" element={<CustomerUpdate />} />
+
       </Routes>
       <Footer />
     </div>

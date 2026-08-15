@@ -25,6 +25,7 @@ const Header = () => {
                     <Navitem to="./books" name="Books" />
                     <Navitem to="./addauthor" name="Register Author" />
                     <Navitem to="./authors" name="Authors" />
+                    <Navitem to="./customers" name="Customers" />
                 </ul>
             </nav>
         </header>
