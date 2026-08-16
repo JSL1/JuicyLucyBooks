@@ -21,7 +21,7 @@ function CustomerUpdate() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/customers/update-customer",
+        process.env.API_URL + "/api/customers/update-customer",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

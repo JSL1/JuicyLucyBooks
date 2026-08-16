@@ -27,7 +27,7 @@ function CustomerRegister() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/customers/register-customer",
+        process.env.API_URL + "api/customers/register-customer",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

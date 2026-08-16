@@ -11,7 +11,7 @@ const AuthorsMain = () => {
     const [authorBook, setAuthorBook] = useState({});
     
     const fetchAuthors = () => {
-        fetch("http://localhost:5000/api/authors")
+        fetch(process.env.API_URL + "/api/authors")
                 .then(response => response.json())
                 .then(data => {
                     const ids = data.map(a => a.AUTHORID); // Fixed casing to match uppercase DB keys
@@ -23,7 +23,7 @@ const AuthorsMain = () => {
 
     useEffect(() => {
             fetchAuthors();
-            fetch("http://localhost:5000/api/books")
+            fetch(process.env.API_URL + "/api/books")
                 .then(response => response.json())
                 .then(data => setAllBooks(data));
         }, []);
@@ -38,7 +38,7 @@ const AuthorsMain = () => {
 
         const assignAuthorToBook = async (e) => {
             e.preventDefault();
-            fetch(`http://localhost:5000/api/authors/${authorBook.AUTHORID}`, {
+            fetch(`${process.env.API_URL}/api/authors/${authorBook.AUTHORID}`, {
                 method: 'PUT',
                 headers: {
                 "Content-Type": "application/json"
@@ -53,7 +53,7 @@ const AuthorsMain = () => {
         }
 
         const saveAuthor = async (author) => {
-            fetch(`http://localhost:5000/api/authors/update/${author.AUTHORID}`, {
+            fetch(`${process.env.API_URL}/api/authors/update/${author.AUTHORID}`, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

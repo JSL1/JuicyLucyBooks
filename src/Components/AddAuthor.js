@@ -7,7 +7,7 @@ const AddAuthor = () => {
     const [activeAuthor, setActiveAuthor] = useState({});
 
     useEffect(() => {
-            fetch("http://localhost:5000/api/authors")
+            fetch(process.env.API_URL + "api/authors")
                 .then(response => response.json())
                 .then(data => {
                     const ids = data.map(a => a.authorid);
@@ -26,7 +26,7 @@ const AddAuthor = () => {
     const registerAuthor = async(e) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:5000/api/authors",
+            const response = await fetch(process.env.API_URL + "/api/authors",
                 {
                     method: "POST",
                     headers: {

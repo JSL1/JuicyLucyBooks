@@ -8,7 +8,7 @@ const AddBook = () => {
     const [activeBook, setActiveBook] = useState({});
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/books")
+        fetch(process.env.API_URL + "/api/books")
             .then(response => response.json())
             .then(data => {
                 const ids = data.map(book => book.PUBID);
@@ -27,7 +27,7 @@ const AddBook = () => {
     const registerBook = async(e) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:5000/api/books",
+            const response = await fetch(process.env.API_URL + "/api/books",
                 {
                     method: "POST",
                     headers: {
