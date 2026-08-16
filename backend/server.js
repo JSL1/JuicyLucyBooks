@@ -4,6 +4,7 @@ import sqlz from './db.js';
 
 import bookRoutes from './routes/bookRoutes.js'
 import authorRoutes from './routes/authorRoutes.js';
+import customerRoutes from './routes/customerRoutes.js';
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use("/api/", bookRoutes);
 app.use("/api/", authorRoutes);
+app.use("/api/", customerRoutes)
 
 sqlz.authenticate()
     .then(() => {

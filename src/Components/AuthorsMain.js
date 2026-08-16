@@ -10,15 +10,19 @@ const AuthorsMain = () => {
     const [publisherIds, setPublisherIds] = useState([]);
     const [authorBook, setAuthorBook] = useState({});
     
-    useEffect(() => {
-            fetch("http://localhost:5000/api/authors")
+    const fetchAuthors = () => {
+        fetch("http://localhost:5000/api/authors")
                 .then(response => response.json())
                 .then(data => {
-                    const ids = data.map(a => a.authorid);
+                    const ids = data.map(a => a.AUTHORID); // Fixed casing to match uppercase DB keys
                     const uniqueAuthorIds = [...new Set(ids)];
                     setAllAuthors(data);
                     setAuthorIds(uniqueAuthorIds);
-                });
+        });
+    }
+
+    useEffect(() => {
+            fetchAuthors();
             fetch("http://localhost:5000/api/books")
                 .then(response => response.json())
                 .then(data => setAllBooks(data));
@@ -39,10 +43,45 @@ const AuthorsMain = () => {
                 headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(authorBook)
+            body: JSON.stringify({ ISBN: authorBook.ISBN }) // Send just the expected body property
         })
             .then(res => res.json())
-            .then(data => console.log(data));
+            .then(data => {
+                console.log(data);
+                alert("Author assigned successfully");
+            });
+        }
+
+        const saveAuthor = async (author) => {
+            fetch(`http://localhost:5000/api/authors/update/${author.AUTHORID}`, {
+                method: 'PUT',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    FNAME: author.FNAME,
+                    LNAME: author.LNAME
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                alert("Author name updated successfully");
+            })
+            .catch(err => console.error(err));
+        }
+        
+        const deleteAuthor = async (authorId) => {
+            if (!window.confirm("Are you sure you want to delete this author?")) return;
+
+            fetch(`http://localhost:5000/api/authors/${authorId}`, {
+                method: 'DELETE'
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                alert("Author deleted successfully");
+                fetchAuthors();
+            })
+            .catch(err => console.error(err));
         }
 
         return (
@@ -50,14 +89,16 @@ const AuthorsMain = () => {
             <div className="update-all">
                 <span>Assign author to book</span>
                 <form id="assign-book-author">
-                    <select id="assign-author-id" onChange={handleChangAb}>
+                    <select id="assign-author-id" name="AUTHORID" onChange={handleChangAb} value={authorBook.AUTHORID || ''}>
+                        <option value="">-- Select Author --</option>
                         {allAuthors.map(author => 
-                            <option id={author.AUTHORID}>{author.AUTHORID} - {author.FNAME} {author.LNAME}</option>
+                            <option key={author.AUTHORID} value={author.AUTHORID}>{author.AUTHORID} - {author.FNAME} {author.LNAME}</option>
                         )}
                     </select>
-                    <select id="assign-book-id" onChange={handleChangAb}>
+                    <select id="assign-book-id" name="ISBN" onChange={handleChangAb} value={authorBook.ISBN || ''}>
+                        <option value="">-- Select Book --</option>
                         {allBooks.map(b => 
-                            <option value={b.ISBN}>{b.ISBN} - {b.TITLE}</option>
+                            <option key={b.ISBN} value={b.ISBN}>{b.ISBN} - {b.TITLE}</option>
                         )}
                     </select>
                     <input type="button" value="Save" onClick={assignAuthorToBook}></input>
@@ -65,14 +106,14 @@ const AuthorsMain = () => {
             </div>
             <div id="all-authors">
                 {allAuthors.map( author => 
-                <div className="update-book">
+                <div className="update-book" key={author.AUTHORID}>
                     <form>
-                        <span>Author Id# {author.id}</span>
+                        <span>Author Id# {author.AUTHORID}</span>
                         <input type="text" name="update-fname" id="author-update-fname" placeholder={author.FNAME} />
                         <input type="text" name="update-lname" id="author-update-lname" placeholder={author.LNAME} />
                         <div className="update-buttons">
-                            <button type="button" className="button-small">Save </button>
-                            <button type="button" className="button-small">Delete </button>
+                            <button type="button" className="button-small" onClick={() => saveAuthor(author)}>Save </button>
+                            <button type="button" className="button-small" onClick={() => deleteAuthor(author.AUTHORID)}>Delete </button>
                         </div>
                     </form>
                 </div>

@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const BooksMain = () => {
     const [allBooks, setAllBooks] = useState([
@@ -8,76 +8,135 @@ const BooksMain = () => {
             PUBDATE: Date.now(),
             PUBID: 1,
             COST: 0.00,
+            RETAIL: 0.00,
             DISCOUNT: 0.00,
             CATEGORY: 'Misc'
         }
     ]);
 
-    const [activeBook, setActiveBook] = useState({});
+    const [updateParams, setUpdateParams] = useState({ COST: '', RETAIL: '', CATEGORY: '' });
+
+    const fetchBooks = () => {
+        fetch("http://localhost:5000/api/books")
+            .then(res => res.json())
+            .then(data => setAllBooks(data))
+            .catch(err => console.error(err));
+    };
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/books")
-            .then(response => response.json())
-            .then(data => setAllBooks(data));
+        fetchBooks();
     }, []);
 
-    const handleFormInput = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        setActiveBook(values => ({...values, [name]: value}));
-    }
+    const handleRowInputChange = (isbn, field, value) => {
+        setAllBooks(allBooks.map(book => 
+            book.ISBN === isbn ? { ...book, [field]: value } : book
+        ));
+    };
+
+    const handleUpdateParams = (e) => {
+        setUpdateParams({ ...updateParams, [e.target.name]: e.target.value });
+    };
     
-    //update one book
-    const updateBook = async () => {
-        fetch(`http://localhost:5000/api/books/${activeBook.ISBN}`, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(activeBook)
-        })
-        .then(res => res.json()
-    )
-        .then(data => console.log(data));
-    }
+    const updateBook = async (book) => {
+        try {
+            const res = await fetch(`http://localhost:5000/api/books/${book.ISBN}`, {
+                method: 'PUT',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    COST: book.COST,
+                    RETAIL: book.RETAIL,
+                    CATEGORY: book.CATEGORY
+                })
+            });
+            const data = await res.json();
+            alert("book updated successfully");
+            fetchBooks();
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
-    //update all books
-   /* const updateAllBooks = async () => {
+    const updateAllBooks = async () => {
+        try {
+            const res = await fetch(`http://localhost:5000/api/books/all`, {
+                method: 'PUT',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updateParams)
+            });
+            const data = await res.json();
+            alert("all books updated successfully");
+            fetchBooks();
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
-    }*/
+    const deleteBook = async (isbn) => {
+        if (!window.confirm("Are you sure you want to delete this book?")) return;
+        try {
+            const res = await fetch(`http://localhost:5000/api/books/${isbn}`, {
+                method: 'DELETE'
+            });
+            const data = await res.json();
+            alert("book deleted successfully");
+            fetchBooks();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
 
     return (
         <main className="container">
             <h2>All Books</h2>
+            
             <div className="update-all">
                 <span>Update All Books</span>
                 <form id="update-all-books">
-                    <input type="number" name="update-all-cost" id="update-all-cost" placeholder="Cost" />
-                    <input type="number" name="update-all-retail" id="update-all-retail" placeholder="Retail" />
-                    <input type="text" name="cupdate-all-category" id="update-all-category" placeholder="Category" />
-                    <input type="button" value="Save" />
+                    <input type="number" name="COST" placeholder="Cost" value={updateParams.COST} onChange={handleUpdateParams}/>
+                    <input type="number" name="RETAIL" placeholder="Retail" value={updateParams.RETAIL} onChange={handleUpdateParams}/>
+                    <input type="text" name="CATEGORY" placeholder="Category" value={updateParams.CATEGORY} onChange={handleUpdateParams}/>
+                    <button type="button" onClick={updateAllBooks}>Save All</button>
                 </form>
             </div>
-            {allBooks.map(book => 
-                <div className="update-book">
+
+            {allBooks.map(book => (
+                <div className="update-book" key={book.ISBN}>
                     <label>#{book.ISBN} - {book.TITLE}</label>
-                    <label for="cost">Cost:</label>
-                    <input type="hidden" name="isbn" value={book.ISBN} />
-                    <input type="hidden" name="title" value={book.TITLE} />
-                    <input type="hidden" name="pubdate" value={book.PUBDATE} />
-                    <input type="hidden" name="pubid" value={book.PUBID} />
-                    <input type="number" name="cost" id="update-cost" placeholder={book.COST} onChange={handleFormInput} />
-                    <inpyt type="hidden" name="discount" value={book.DISCOUNT} />
-                    <label for="retail">Retail:</label>
-                    <input type="number" name="retail" id="update-retail" placeholder={book.RETAIL} onChange={handleFormInput} />
-                    <label for="Category:">Category:</label>
-                    <input type="text" name="category" id="update-category" placeholder={book.CATEGORY} onChange={handleFormInput} />
+                    
+                    <label htmlFor={`cost-${book.ISBN}`}>Cost:</label>
+                    <input 
+                        type="number" 
+                        id={`cost-${book.ISBN}`}
+                        placeholder={book.COST} 
+                        value={book.COST || ''} 
+                        onChange={(e) => handleRowInputChange(book.ISBN, 'COST', e.target.value)} 
+                    />
+                    
+                    <label htmlFor={`retail-${book.ISBN}`}>Retail:</label>
+                    <input 
+                        type="number" 
+                        id={`retail-${book.ISBN}`}
+                        placeholder={book.RETAIL} 
+                        value={book.RETAIL || ''} 
+                        onChange={(e) => handleRowInputChange(book.ISBN, 'RETAIL', e.target.value)} 
+                    />
+                    
+                    <label htmlFor={`category-${book.ISBN}`}>Category:</label>
+                    <input 
+                        type="text" 
+                        id={`category-${book.ISBN}`}
+                        placeholder={book.CATEGORY} 
+                        value={book.CATEGORY || ''} 
+                        onChange={(e) => handleRowInputChange(book.ISBN, 'CATEGORY', e.target.value)} 
+                    />
+                    
                     <div className="update-buttons">
-                        <button type="button" className="button-small">Save </button>
-                        <button type="button" className="button-small">Delete </button>
+                        <button type="button" className="button-small" onClick={() => updateBook(book)}>Save</button>
+                        <button type="button" className="button-small" onClick={() => deleteBook(book.ISBN)}>Delete</button>
                     </div>
                 </div>
-            )}
+            ))}
         </main>
     );
 }

@@ -101,3 +101,19 @@ BEGIN
     VALUES ( p_customer_id, p_lastname, p_firstname, p_address, p_city, p_state, p_zip, p_referred, p_region,p_email, p_credit_limit);
     COMMIT;
 END;
+
+-- DELETE PROCEDURES
+CREATE OR REPLACE procedure sp_delete_book(p_isbn JL_BOOKS.ISBN%TYPE)
+AS 
+BEGIN
+    DELETE FROM JL_BOOKS WHERE ISBN = p_isbn;
+    COMMIT;
+END;
+
+
+CREATE OR REPLACE PROCEDURE sp_delete_author(p_id JL_AUTHOR.AUTHORID%TYPE)
+AS
+BEGIN
+    DELETE FROM JL_AUTHOR WHERE AUTHORID = i_id;
+    COMMIT;
+END;
