@@ -26,10 +26,31 @@ router.put('/books/:id', async (req,res) => {
     } catch(err) {
         console.error(err);
         res.status(500).json({
-            error: error.message
+            error: err.message
         });
     }
 });
+
+
+router.post("/books", async (req, res) => {
+    const { ISBN, TITLE, PUBDATE, PUBID, COST, RETAIL, DISCOUNT, CATEGORY } = req.body;
+
+    try {
+        await sqlz.query(`
+        BEGIN
+            sp_Book_register(:isbn, :title, :pubdate, :pubid, :cost, :retail, :discount, :category);
+        END;
+        `, {
+            replacements: { ISBN, TITLE, PUBDATE, PUBID, COST, RETAIL, DISCOUNT, CATEGORY }
+        });
+    } catch(err) {
+        console.error(err);
+        res.status(500).json({
+            error: err.message
+        });
+    }
+});
+
 
 export default router;
 

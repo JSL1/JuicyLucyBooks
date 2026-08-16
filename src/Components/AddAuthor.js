@@ -1,12 +1,22 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 
 const AddAuthor = () => {
 
+    const [allAuthors, setAllAuthors] = useState([]);
     const [authorIds, setAuthorIds] = useState([1,2,3,4,5,6]);
+    const [activeAuthor, setActiveAuthor] = useState({});
 
-    const getAuthors = async () => {
+    useEffect(() => {
+            fetch("http://localhost:5000/api/authors")
+                .then(response => response.json())
+                .then(data => {
+                    const ids = data.map(a => a.authorid);
+                    const uniqueAuthorIds = [...new Set(ids)];
+                    setAllAuthors(data);
+                    setAuthorIds(uniqueAuthorIds);
+                });
+        }, []);
 
-    }
     return (
         <main className="container">
         <h2 className="pico-color-violet-500">Register Author</h2>
