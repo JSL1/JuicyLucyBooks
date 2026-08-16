@@ -8,7 +8,7 @@ const AuthorsMain = () => {
     const [activeAuthor, setActiveAuthor] = useState({});
     const [allBooks, setAllBooks] = useState([]);
     const [publisherIds, setPublisherIds] = useState([]);
-    const [authorBook, getAuthorBook] = useState({});
+    const [authorBook, setAuthorBook] = useState({});
     
     useEffect(() => {
             fetch("http://localhost:5000/api/authors")
@@ -24,8 +24,25 @@ const AuthorsMain = () => {
                 .then(data => setAllBooks(data));
         }, []);
     
-        const assignAuthorToBook = (e) => {
+
+        const handleChangAb = (e) => {
+            const name = e.target.name;
+            const value = e.target.value;
+            setAuthorBook(values => ({...values, [name]: value}));
+        }
+
+
+        const assignAuthorToBook = async (e) => {
             e.preventDefault();
+            fetch(`http://localhost:5000/api/authors/${authorBook.AUTHORID}`, {
+                method: 'PUT',
+                headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(authorBook)
+        })
+            .then(res => res.json())
+            .then(data => console.log(data));
         }
 
         return (
@@ -33,17 +50,17 @@ const AuthorsMain = () => {
             <div className="update-all">
                 <span>Assign author to book</span>
                 <form id="assign-book-author">
-                    <select id="assign-author-id">
+                    <select id="assign-author-id" onChange={handleChangAb}>
                         {allAuthors.map(author => 
                             <option id={author.AUTHORID}>{author.AUTHORID} - {author.FNAME} {author.LNAME}</option>
                         )}
                     </select>
-                    <select id="assign-book-id">
+                    <select id="assign-book-id" onChange={handleChangAb}>
                         {allBooks.map(b => 
                             <option value={b.ISBN}>{b.ISBN} - {b.TITLE}</option>
                         )}
                     </select>
-                    <input type="button" value="Save"></input>
+                    <input type="button" value="Save" onClick={assignAuthorToBook}></input>
                 </form>
             </div>
             <div id="all-authors">
