@@ -1,25 +1,24 @@
-const { Sequelize } = require('sequelize');
-const cors = require('cors');
-const sequelize = require('./config/database');
+import { Sequelize } from 'sequelize';
+import "dotenv/config";
 
 const credentials = {
-    uname: impor.env.USERNAME,
-    pword: import.meta.env.PASSWORD,
-    hostname: import.meta.env.HOSTNAME,
-    port: import.meta.env.PORT,
-    sid: import.meta.env.SID
+    uname: 'COMP214_M26_ers_4',
+    pword:  'password',
+    hostname: process.env.HOSTNAME,
+    port: process.env.PORT,
+    sid: process.env.SID
 };
 
-const sequelize = new Sequelize({
+const sqlz = new Sequelize({
     dialect: 'oracle',
-    username: uname,
-    password: pword,
+    username: credentials.uname,
+    password: credentials.pword,
     dialectOptions: {
-        connectString: `(DESCRIPTION = (ADDRESS = ( PROTOCOL = TCP)(HOST = ${import.meta.env.HOST})(HOST = ${import.meta.env.PORT}))(CONNECT_DATA = (SID = ${import.meta.env.SID})))`
-    }
+        connectString: `(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = ${credentials.hostname})(PORT = ${credentials.port}))(CONNECT_DATA = (SID = ${credentials.sid})))`
+    },
+    logging: console.log
 });
 
 //app.use
 
-module.exports = sequelize;
-
+export default sqlz;

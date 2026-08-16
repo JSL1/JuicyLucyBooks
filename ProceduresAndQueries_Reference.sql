@@ -75,3 +75,24 @@ SELECT ISBN, AUTHORID
 FROM JL_BOOKAUTHOR
 WHERE ISBN = '0401140733'
 AND AUTHORID = 'F310';
+
+-- task 3: register customer 
+CREATE OR REPLACE PROCEDURE SP_REGISTER_CUSTOMER (
+    p_customer_id  IN NUMBER,
+    p_lastname     IN VARCHAR2,
+    p_firstname    IN VARCHAR2,
+    p_address      IN VARCHAR2,
+    p_city         IN VARCHAR2,
+    p_state        IN VARCHAR2,
+    p_zip          IN VARCHAR2,
+    p_referred     IN NUMBER,
+    p_region       IN VARCHAR2,
+    p_email        IN VARCHAR2,
+    p_credit_limit IN NUMBER
+)
+AS
+BEGIN
+    INSERT INTO JL_CUSTOMERS (customer#, lastname,firstname,address,city,state,zip, referred, region, email, credit_limit)
+    VALUES ( p_customer_id, p_lastname, p_firstname, p_address, p_city, p_state, p_zip, p_referred, p_region,p_email, p_credit_limit);
+    COMMIT;
+END;

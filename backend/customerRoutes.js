@@ -1,27 +1,16 @@
 
 // Backend API routes for Task 3 (Customer Register & Update)
-
 const express = require("express");
 const router = express.Router();
-const oracledb = require("oracledb");
 const sequelize = require("./db.js");
 
 // ROUTE: Register Customer
 // Calls: SP_REGISTER_CUSTOMER
 
 router.post("/register-customer", async (req, res) => {
-  const {
-    customer_id,
-    lastname,
-    firstname,
-    address,
-    city,
-    state,
-    zip,
-    referred,
-    region,
-    email,
-    credit_limit
+  const { 
+    customer_id, lastname, firstname, address, city, state,
+    zip, referred, region, email, credit_limit
   } = req.body;
 
   try {
