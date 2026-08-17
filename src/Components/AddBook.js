@@ -8,7 +8,7 @@ const AddBook = () => {
     const [activeBook, setActiveBook] = useState({});
 
     useEffect(() => {
-        fetch("https://juicylucybooks.onrender.com//api/books")
+        fetch("https://juicylucybooks.onrender.com/api/books")
             .then(response => response.json())
             .then(data => {
                 const ids = data.map(book => book.PUBID);

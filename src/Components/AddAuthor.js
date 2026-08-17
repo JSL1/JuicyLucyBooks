@@ -7,7 +7,7 @@ const AddAuthor = () => {
     const [activeAuthor, setActiveAuthor] = useState({});
 
     useEffect(() => {
-            fetch(process.env.API_URL + "api/authors")
+            fetch("https://juicylucybooks.onrender.com/api/authors")
                 .then(response => response.json())
                 .then(data => {
                     const ids = data.map(a => a.authorid);
@@ -26,7 +26,7 @@ const AddAuthor = () => {
     const registerAuthor = async(e) => {
         e.preventDefault();
         try {
-            const response = await fetch(process.env.API_URL + "/api/authors",
+            const response = await fetch("https://juicylucybooks.onrender.com/api/authors",
                 {
                     method: "POST",
                     headers: {

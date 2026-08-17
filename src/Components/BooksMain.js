@@ -17,7 +17,7 @@ const BooksMain = () => {
     const [updateParams, setUpdateParams] = useState({ COST: '', RETAIL: '', CATEGORY: '' });
 
     const fetchBooks = () => {
-        fetch(process.env.API_URL + "/api/books")
+        fetch("https://juicylucybooks.onrender.com/api/books")
             .then(res => res.json())
             .then(data => setAllBooks(data))
             .catch(err => console.error(err));
@@ -39,7 +39,7 @@ const BooksMain = () => {
     
     const updateBook = async (book) => {
         try {
-            const res = await fetch(`${process.env.API_URL}/api/books/${book.ISBN}`, {
+            const res = await fetch(`https://juicylucybooks.onrender.com/api/books/${book.ISBN}`, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -58,7 +58,7 @@ const BooksMain = () => {
 
     const updateAllBooks = async () => {
         try {
-            const res = await fetch(`${process.env.API_URL}/api/books/all`, {
+            const res = await fetch(`https://juicylucybooks.onrender.com/api/books/all`, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updateParams)
@@ -74,7 +74,7 @@ const BooksMain = () => {
     const deleteBook = async (isbn) => {
         if (!window.confirm("Are you sure you want to delete this book?")) return;
         try {
-            const res = await fetch(`${process.env.API_URL}/api/books/${isbn}`, {
+            const res = await fetch(`https://juicylucybooks.onrender.com/api/books/${isbn}`, {
                 method: 'DELETE'
             });
             const data = await res.json();
