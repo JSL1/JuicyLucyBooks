@@ -8,7 +8,7 @@ const AddBook = () => {
     const [activeBook, setActiveBook] = useState({});
 
     useEffect(() => {
-        fetch(process.env.API_URL + "/api/books")
+        fetch("https://juicylucybooks.onrender.com//api/books")
             .then(response => response.json())
             .then(data => {
                 const ids = data.map(book => book.PUBID);
@@ -27,7 +27,7 @@ const AddBook = () => {
     const registerBook = async(e) => {
         e.preventDefault();
         try {
-            const response = await fetch(process.env.API_URL + "/api/books",
+            const response = await fetch("https://juicylucybooks.onrender.com/api/books",
                 {
                     method: "POST",
                     headers: {

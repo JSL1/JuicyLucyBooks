@@ -11,7 +11,7 @@ const AuthorsMain = () => {
     const [authorBook, setAuthorBook] = useState({});
     
     const fetchAuthors = () => {
-        fetch(process.env.API_URL + "/api/authors")
+        fetch("https://juicylucybooks.onrender.com/api/authors")
                 .then(response => response.json())
                 .then(data => {
                     const ids = data.map(a => a.AUTHORID); // Fixed casing to match uppercase DB keys
@@ -23,7 +23,7 @@ const AuthorsMain = () => {
 
     useEffect(() => {
             fetchAuthors();
-            fetch(process.env.API_URL + "/api/books")
+            fetch("https://juicylucybooks.onrender.com/api/books")
                 .then(response => response.json())
                 .then(data => setAllBooks(data));
         }, []);
@@ -38,7 +38,7 @@ const AuthorsMain = () => {
 
         const assignAuthorToBook = async (e) => {
             e.preventDefault();
-            fetch(`${process.env.API_URL}/api/authors/${authorBook.AUTHORID}`, {
+            fetch(`https://juicylucybooks.onrender.com/api/authors/${authorBook.AUTHORID}`, {
                 method: 'PUT',
                 headers: {
                 "Content-Type": "application/json"
@@ -53,7 +53,7 @@ const AuthorsMain = () => {
         }
 
         const saveAuthor = async (author) => {
-            fetch(`${process.env.API_URL}/api/authors/update/${author.AUTHORID}`, {
+            fetch(`https://juicylucybooks.onrender.com/api/authors/update/${author.AUTHORID}`, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -72,7 +72,7 @@ const AuthorsMain = () => {
         const deleteAuthor = async (authorId) => {
             if (!window.confirm("Are you sure you want to delete this author?")) return;
 
-            fetch(`http://localhost:5000/api/authors/${authorId}`, {
+            fetch(`https://juicylucybooks.onrender.com/${authorId}`, {
                 method: 'DELETE'
             })
             .then(res => res.json())
