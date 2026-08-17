@@ -5,7 +5,7 @@ const credentials = {
     uname: 'COMP214_M26_ers_4',
     pword:  'password',
     hostname: process.env.HOST,
-    port: process.env.PORT,
+    port: process.env.ORACLE_PORT,
     sid: process.env.SID
 };
 
