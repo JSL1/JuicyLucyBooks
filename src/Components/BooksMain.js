@@ -19,8 +19,7 @@ const BooksMain = () => {
     const fetchBooks = () => {
         fetch("https://juicylucybooks.onrender.com/api/books")
             .then(res => res.json())
-            .then(data => setAllBooks(data))
-            .catch(err => console.error(err));
+            .then(data => setAllBooks(data));
     };
 
     useEffect(() => {
