@@ -15,17 +15,6 @@ const sqlz = new Sequelize({
     password: credentials.pword,
     dialectOptions: {
         connectString: `(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = ${credentials.hostname})(PORT = ${credentials.port}))(CONNECT_DATA = (SID = ${credentials.sid})))`
-    },
-    logging: console.log,
-    dialectOptions: {
-      connectTimeout: 60000,
-      expireTime: 3
-    },
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 60000,
-      idle: 10000
     }
 });
 
